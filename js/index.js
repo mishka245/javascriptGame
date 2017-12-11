@@ -17,8 +17,11 @@ $(document).ready(function () {
     right_score_obj = document.getElementById("right_score")
     game_description_text_obj = document.getElementById("game_description_text")
     init()
+    console.log(games)
     games[0].start_game()
+
 });
+
 
 
 function won_left() {
@@ -45,21 +48,31 @@ window.onkeydown = function (e) {
     if (code === 38) { //up key
         if (wins) {
             won_right();
-            games[0].restart_game()
+            if (!games[0].finished) {
+                games[0].restart_game()
+            }
         }
         else {
             lose_right();
-            games[0].restart_game()
+            if (!games[0].finished) {
+                games[0].restart_game()
+            }
         }
     } else if (code === 87) { //w key
         if (wins) {
             won_left();
-            games[0].restart_game();
+            if (!games[0].finished) {
+                games[0].restart_game()
+            }
         }
         else {
             lose_right();
-            games[0].restart_game()
+            if (!games[0].finished) {
+                games[0].restart_game()
+            }
         }
     }
 };
+
+
 

@@ -4,10 +4,10 @@ function white_board_game() {
     this.game_number = 0
     this.finished = false
     this.setinterval_id = null
-    this.intervals_array = new Array(this.game_count)
+    this.intervals_array = []
     this.bg_worker_counter = 0;
 
-    for (var i = 0; i < this.intervals_array.length; ++i) {
+    for (var i = 0; i < this.game_count; ++i) {
         this.intervals_array[i] = (getRandomInt(4, 9) * 100)
     }
 
@@ -41,7 +41,7 @@ function white_board_game() {
     this.bg_worker = function () {
         this.bg_worker_counter += 100;
         console.log(this.bg_worker_counter)
-        console.log(this.game_number)
+        console.log(this.intervals_array)
         if (this.bg_worker_counter == this.intervals_array[this.game_number]) {
             wins = true
             this.open_board()
