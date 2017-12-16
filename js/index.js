@@ -4,7 +4,11 @@ var game_description_text_obj = null
 var left_score = 0
 var right_score = 0
 var wins = false
+var finished = false
 var games = []
+var games_indeces = []    // indexes for games array
+var game_index = null   // index in games array
+var counter = 0
 
 function init() {
     left_score_obj.innerHTML = "Score: " + left_score
@@ -17,18 +21,51 @@ $(document).ready(function () {
     right_score_obj = document.getElementById("right_score")
     game_description_text_obj = document.getElementById("game_description_text")
     // games.push(white_board_game());
-    games.push(alphabet_game())
+    games[0] = (alphabet_game())
+    games[1] = (white_board_game())
+    for (var i = 0; i < games.length; ++i) {
+        games_indeces[i] = i
+    }
+    shuffle(games_indeces)
+    game_index = games_indeces.pop();
+    counter++
     init()
-    console.log(games[0])
-    games[0].start_game()
+    games[game_index].start_game()
 
 
 });
 
+function zaali() {
+    console.log("finaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaal")
+}
+
+function choose_next_game() {
+    console.log("choose")
+    if (counter == games.length) {
+        zaali()
+    }
+    else {
+        games[game_index].stop_game()
+        game_index = games_indeces.pop();
+        counter++
+        games[game_index].start_game()
+    }
+
+}
+
+setInterval(function () {
+    //finished game checker
+    // console.log(games[game_index])
+    if (finished) {
+        choose_next_game()
+    }
+
+}, 200)
+
 
 function won_left() {
     left_score_obj.innerHTML = "Score: " + ++left_score
-        var $el = $("#left_panel"),
+    var $el = $("#left_panel"),
         x = 1000,
         originalColor = $el.css("background");
 
@@ -41,7 +78,7 @@ function won_left() {
 
 function won_right() {
     right_score_obj.innerHTML = "Score: " + ++right_score
-        var $el = $("#right_panel"),
+    var $el = $("#right_panel"),
         x = 1000,
         originalColor = $el.css("background");
 
@@ -86,15 +123,21 @@ window.onkeydown = function (e) {
     if (code === 87) { //up key
         if (wins) {
             won_left();
-            if (!games[0].finished) {
-                games[0].restart_game()
+            if (!finished) {
+                games[game_index].restart_game()
+            }
+            else {
+                choose_next_game()
             }
             console.log("won left")
         }
         else {
             lose_left();
-            if (!games[0].finished) {
-                games[0].restart_game()
+            if (!finished) {
+                games[game_index].restart_game()
+            }
+            else {
+                choose_next_game()
             }
 
             console.log("loose left")
@@ -102,14 +145,20 @@ window.onkeydown = function (e) {
     } else if (code === 38) { //w key
         if (wins) {
             won_right();
-            if (!games[0].finished) {
-                games[0].restart_game()
+            if (!finished) {
+                games[game_index].restart_game()
+            }
+            else {
+                choose_next_game()
             }
         }
         else {
             lose_right();
-            if (!games[0].finished) {
-                games[0].restart_game()
+            if (!finished) {
+                games[game_index].restart_game()
+            }
+            else {
+                choose_next_game()
             }
 
         }

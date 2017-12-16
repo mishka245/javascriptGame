@@ -3,7 +3,6 @@ function white_board_game() {
     this.game_description = "Press on your key when white board appears";
     this.game_count = getRandomInt(3, 5);
     this.game_number = 0
-    this.finished = false
     this.setinterval_id = false
     this.intervals_array = []
     this.bg_worker_counter = 0;
@@ -19,6 +18,7 @@ function white_board_game() {
 
 
     this.start_game = function () {
+        finished = false
         game_description_text_obj.innerHTML = this.game_description
         $("#game_content").load("white_board_game.html")
         setinterval_id = setInterval(this.bg_worker, 100)
@@ -27,6 +27,7 @@ function white_board_game() {
 
 
     this.restart_game = function () {
+        console.log("restart white")
         wins = false
         $("#board").css("background-color", "black")
         if (setinterval_id) {
@@ -37,7 +38,7 @@ function white_board_game() {
 
     this.bg_worker = function () {
         this.bg_worker_counter += 100;
-        console.log(setinterval_id)
+        console.log("white")
         if (this.bg_worker_counter == this.intervals_array[this.game_number]) {
             console.log(this.intervals_array[this.game_number])
             wins = true
@@ -47,8 +48,10 @@ function white_board_game() {
             clearInterval(setinterval_id)
 
         }
-        if (this.game_number == this.game_count - 1) {
-            this.finished = true
+        if (this.game_number == this.game_count ) {
+            finished = true
+            console.log("finished white")
+
         }
 
     };

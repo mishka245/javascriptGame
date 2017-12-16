@@ -9,26 +9,27 @@ function alphabet_game() {
     this.game_number = 0
     this.wait_time = 5000
     this.bg_worker_counter = 0
-    this.finished = false
     this.bg_worker_id = null
 
 
     this.start_game = function () {
         game_description_text_obj.innerHTML = this.game_description
         $("#game_content").load("alphabet_game.html", function () {
-        document.getElementById("alphabet-text").innerHTML = alphabets[alphabet_number][0]
-        wins = alphabets[alphabet_number][1]
-        bg_worker_id = setInterval(bg_worker, 100)
-        console.log("started")
+            document.getElementById("alphabet-text").innerHTML = alphabets[alphabet_number][0]
+            wins = alphabets[alphabet_number][1]
+            bg_worker_id = setInterval(bg_worker, 100)
+            console.log("started")
         })
-
+         finished = false
 
 
     };
 
 
     this.restart_game = function () {
-        if(bg_worker_id){
+
+        console.log("restart alphabet")
+        if (bg_worker_id) {
             clearInterval(bg_worker_id)
         }
         bg_worker_id = setInterval(this.bg_worker, 100)
@@ -46,27 +47,30 @@ function alphabet_game() {
 
     this.bg_worker = function () {
         bg_worker_counter += 100;
+        // console.log("game number " + game_number)
+        // console.log("game count " + game_count)
+        console.log("alphabet")
         if (bg_worker_counter == wait_time) {
             bg_worker_counter = 0
             game_number++
             clearInterval(bg_worker_id)
             console.log(game_number)
             console.log(game_count)
-            if (game_number == game_count - 1) {
+            if (game_number >= game_count - 1) {
                 finished = true
+                console.log("finished alphabet")
             }
             else {
                 this.restart_game()
             }
         }
-        console.log("worker")
 
     };
 
     this.stop_game = function () {
         //stop game
         clearInterval(bg_worker_id)
-        wins= false
+        wins = false
     }
 
     if (!(this instanceof alphabet_game)) {
