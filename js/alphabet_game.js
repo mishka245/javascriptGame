@@ -6,22 +6,19 @@ function alphabet_game() {
         ["ABCDEFGHIJKLMNOPQRSTUVWXYZ", true]]
     this.alphabet_number = getRandomInt(0, this.alphabets.length - 1)
     this.game_count = getRandomInt(5, 7)
-    this.game_number = 0
+    this.alph_game_number = 0
     this.wait_time = 5000
-    this.bg_worker_counter = 0
     this.bg_worker_id = null
 
 
     this.start_game = function () {
+        finished = false
         game_description_text_obj.innerHTML = this.game_description
         $("#game_content").load("alphabet_game.html", function () {
             document.getElementById("alphabet-text").innerHTML = alphabets[alphabet_number][0]
             wins = alphabets[alphabet_number][1]
-            bg_worker_id = setInterval(bg_worker, 100)
-            console.log("started")
+            bg_worker_id = setTimeout(bg_worker, this.wait_time)
         })
-         finished = false
-
 
     };
 
@@ -30,9 +27,9 @@ function alphabet_game() {
 
         console.log("restart alphabet")
         if (bg_worker_id) {
-            clearInterval(bg_worker_id)
+            clearTimeout(bg_worker_id)
         }
-        bg_worker_id = setInterval(this.bg_worker, 100)
+        bg_worker_id = setTimeout(this.bg_worker, this.wait_time)
         while (true) {
             var tmp = getRandomInt(0, alphabets.length - 1)
             if (tmp != alphabet_number) {
@@ -46,30 +43,24 @@ function alphabet_game() {
 
 
     this.bg_worker = function () {
-        bg_worker_counter += 100;
-        // console.log("game number " + game_number)
-        // console.log("game count " + game_count)
+
         console.log("alphabet")
-        if (bg_worker_counter == wait_time) {
-            bg_worker_counter = 0
-            game_number++
-            clearInterval(bg_worker_id)
-            console.log(game_number)
-            console.log(game_count)
-            if (game_number >= game_count - 1) {
-                finished = true
-                console.log("finished alphabet")
-            }
-            else {
-                this.restart_game()
-            }
+        alph_game_number++
+        console.log(alph_game_number)
+        console.log(game_count)
+        if (alph_game_number >= game_count ) {
+            finished = true
+            console.log("finished alphabet")
+        }
+        else {
+            this.restart_game()
         }
 
     };
 
     this.stop_game = function () {
         //stop game
-        clearInterval(bg_worker_id)
+        clearTimeout(bg_worker_id)
         wins = false
     }
 

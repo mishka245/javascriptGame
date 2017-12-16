@@ -21,13 +21,15 @@ $(document).ready(function () {
     right_score_obj = document.getElementById("right_score")
     game_description_text_obj = document.getElementById("game_description_text")
     // games.push(white_board_game());
-    games[0] = (alphabet_game())
-    games[1] = (white_board_game())
+    games[0] = (white_board_game())
+    games[1] = (alphabet_game())
+
     for (var i = 0; i < games.length; ++i) {
         games_indeces[i] = i
     }
     shuffle(games_indeces)
-    game_index = games_indeces.pop();
+    // game_index = games_indeces.pop();
+    game_index = 0
     counter++
     init()
     games[game_index].start_game()
@@ -36,7 +38,25 @@ $(document).ready(function () {
 });
 
 function zaali() {
+    clearInterval(checker)
     console.log("finaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaal")
+    if (left_score > right_score) {
+        game_description_text_obj.innerHTML = "Left player won!"
+        $("#left_panel").css("background-color", "green")
+    }
+    else {
+        if (left_score < right_score) {
+            game_description_text_obj.innerHTML = "Right player won!"
+            $("#right_panel").css("background-color", "green")
+        }
+        else {
+            game_description_text_obj.innerHTML = "Draw!"
+            $("#left_panel").css("background-color", "green")
+            $("#right_panel").css("background-color", "green")
+
+        }
+    }
+
 }
 
 function choose_next_game() {
@@ -46,14 +66,15 @@ function choose_next_game() {
     }
     else {
         games[game_index].stop_game()
-        game_index = games_indeces.pop();
+        // game_index = games_indeces.pop();
+        game_index++
         counter++
         games[game_index].start_game()
     }
 
 }
 
-setInterval(function () {
+var checker = setInterval(function () {
     //finished game checker
     // console.log(games[game_index])
     if (finished) {
@@ -126,18 +147,12 @@ window.onkeydown = function (e) {
             if (!finished) {
                 games[game_index].restart_game()
             }
-            else {
-                choose_next_game()
-            }
             console.log("won left")
         }
         else {
             lose_left();
             if (!finished) {
                 games[game_index].restart_game()
-            }
-            else {
-                choose_next_game()
             }
 
             console.log("loose left")
@@ -148,17 +163,11 @@ window.onkeydown = function (e) {
             if (!finished) {
                 games[game_index].restart_game()
             }
-            else {
-                choose_next_game()
-            }
         }
         else {
             lose_right();
             if (!finished) {
                 games[game_index].restart_game()
-            }
-            else {
-                choose_next_game()
             }
 
         }

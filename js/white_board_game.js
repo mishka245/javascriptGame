@@ -21,7 +21,7 @@ function white_board_game() {
         finished = false
         game_description_text_obj.innerHTML = this.game_description
         $("#game_content").load("white_board_game.html")
-        setinterval_id = setInterval(this.bg_worker, 100)
+        setinterval_id = setTimeout(this.bg_worker, this.intervals_array[this.game_number])
 
     };
 
@@ -31,24 +31,21 @@ function white_board_game() {
         wins = false
         $("#board").css("background-color", "black")
         if (setinterval_id) {
-            clearInterval(setinterval_id)
+            clearTimeout(setinterval_id)
         }
-        setinterval_id = setInterval(this.bg_worker, 100)
+        setinterval_id = setTimeout(this.bg_worker, this.intervals_array[this.game_number])
     };
 
     this.bg_worker = function () {
-        this.bg_worker_counter += 100;
-        console.log("white")
-        if (this.bg_worker_counter == this.intervals_array[this.game_number]) {
-            console.log(this.intervals_array[this.game_number])
-            wins = true
-            this.open_board()
-            this.bg_worker_counter = 0
-            this.game_number++
-            clearInterval(setinterval_id)
 
-        }
-        if (this.game_number == this.game_count ) {
+        console.log("white")
+        console.log(intervals_array[game_number])
+        wins = true
+        this.open_board()
+        this.game_number++
+        console.log(this.game_number)
+        console.log(this.game_count)
+        if (this.game_number >= this.game_count) {
             finished = true
             console.log("finished white")
 
@@ -58,7 +55,7 @@ function white_board_game() {
 
     this.stop_game = function () {
         //stop game
-        clearInterval(setinterval_id)
+        clearTimeout(setinterval_id)
         wins = false
     }
 
