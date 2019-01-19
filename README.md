@@ -1,2 +1,2 @@
 # javascriptGame
-# this is project for entertaitment
+# This project is for entertaitmen.
